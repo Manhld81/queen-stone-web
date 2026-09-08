@@ -1,0 +1,39 @@
+# ============================================================================
+# BÍ MẬT & CẤU HÌNH RIÊNG TƯ — TUYỆT ĐỐI KHÔNG ĐƯA LÊN GIT
+# Bài học v1.4: Client Secret bị hardcode vào mã nguồn và đã lộ lên GitHub.
+# Tệp .env chứa giá trị thật; chỉ .env.example (mẫu rỗng) được phép lên Git.
+# ============================================================================
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Node dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Database & SQLite files
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+test_*.db
+
+# Operating System Files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+
+# IDE & Brain logs
+.vscode/
+.idea/
+
+# Temporary test folders & backups
+tests/temp/
+*.valbak
+scratch/
+google_auth_session.json

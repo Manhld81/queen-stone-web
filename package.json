@@ -1,0 +1,17 @@
+{
+  "name": "03--lab-03---web-ban-da-tu-nhien",
+  "version": "1.0.0",
+  "description": "Dự án 03. LAB 03 - Web ban Da Tu Nhien theo chuẩn Vibe Coding Framework v5.0",
+  "scripts": {
+    "test": "node tests/test-all.js",
+    "test:local": "node tests/test-local.js",
+    "test:migration": "node tests/test-migration.js",
+    "lint": "node qa_tools/validate-integrity.js",
+    "scan-secrets": "node qa_tools/scan-secrets.js",
+    "check-tags": "node qa_tools/check-tags.js",
+    "check-docs": "node qa_tools/check-doc-sync.js",
+    "validate-integrity": "node qa_tools/validate-integrity.js",
+    "validate-all": "node qa_tools/scan-secrets.js && node qa_tools/check-tags.js && node qa_tools/validate-integrity.js",
+    "qa:full": "node qa_tools/scan-secrets.js && node qa_tools/check-doc-sync.js && node qa_tools/check-tags.js && node qa_tools/validate-integrity.js"
+  }
+}
