@@ -38,3 +38,4 @@ tests/temp/
 *.valbak
 scratch/
 google_auth_session.json
+koyeb.exe
