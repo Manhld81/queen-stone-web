@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="vi" class="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Queen Stone — Tuyệt Tác Đá Tự Nhiên, Đẳng Cấp Hoàng Gia</title>
+  <meta name="description" content="Queen Stone — Tổng kho đá tự nhiên độc bản nhập khẩu Ý, Brazil, Hy Lạp và Tây Ban Nha dành cho dinh thự, biệt thự và khách sạn thượng lưu." />
+  
+  <!-- Phông chữ Google Fonts chuẩn mực 100% tiếng Việt: Playfair Display (Hoàng Gia), Roboto & Be Vietnam Pro (Nội dung phổ thông) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;0,900;1,400;1,600;1,700&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  
+  <!-- Preload hero slide đầu tiên (LCP Image) để tải sớm nhất, cải thiện Core Web Vitals -->
+  <link rel="preload" as="image" href="/assets/hero_slides/slide_01_foyer_emerald.jpg" />
+
+  <!-- Favicon biểu tượng Vương miện Hoàng gia Queen Stone -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon_crown.svg" />
+  <link rel="alternate icon" href="/favicon.svg" />
+
+  <!-- Thẻ Open Graph chuẩn SEO chia sẻ Zalo, Facebook, iMessage -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Queen Stone" />
+  <meta property="og:title" content="Queen Stone — Tuyệt Tác Đá Tự Nhiên, Đẳng Cấp Hoàng Gia" />
+  <meta property="og:description" content="Queen Stone — Tổng kho đá tự nhiên độc bản nhập khẩu Ý, Brazil, Hy Lạp và Tây Ban Nha dành cho dinh thự, biệt thự và khách sạn thượng lưu." />
+  <meta property="og:image" content="/assets/hero_slides/slide_01_foyer_emerald.jpg" />
+
+  <!-- Stylesheet chính -->
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <!-- 1. THANH ĐIỀU HƯỚNG HOÀNG GIA (HEADER) -->
+  <header class="site-header">
+    <div class="container-custom header-inner">
+      <a href="/" class="logo-brand" title="Queen Stone Gallery — Tuyệt Tác Đá Tự Nhiên">
+        <!-- Biểu tượng Vương miện Hoàng gia và Chữ Queen Stone hợp nhất dạng ảnh -->
+        <img id="siteBrandLogo" src="/uploads/qs_1788947224644_QUEENSTONE.png" data-default-logo="/assets/queen_stone_logo_unified.svg" alt="Queen Stone" class="logo-image" fetchpriority="high" />
+      </a>
+
+      <nav class="nav-links">
+        <a href="#showroom" class="nav-link active">Showroom Đá</a>
+        <a href="/album.html" class="nav-link">Album đá tự nhiên</a>
+        <a href="#contact" class="nav-link">Liên hệ</a>
+      </nav>
+
+      <div class="header-actions">
+        <button id="btnOpenAdminPortal" class="btn-login" title="Đăng nhập Quản Trị Hệ Thống">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          <span>Đăng nhập</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 2. HERO SECTION: SLIDER ĐỘNG 5 KHU VỰC BIỆT THỰ (2.0s - CHUYỂN ĐỘNG TRÁI SANG PHẢI - BUFFER CLONE LOOP) -->
+  <section class="hero-section">
+    <div class="hero-slider-wrapper">
+      <div id="heroSliderTrack" class="hero-track">
+        <!-- Buffer Clone of Slide 5 (index 0) — Để khi bấm lùi từ Slide 1 trượt mượt về Slide 5 -->
+        <div class="hero-slide-item">
+          <img class="hero-slide-img" src="/assets/hero_slides/slide_05_master_spa.jpg" alt="Phòng Tắm Master Suite Spa Đá Arabescato" />
+        </div>
+
+        <!-- 5 SLIDE THẬT (Thứ tự thuận 1→5, track dịch trái, ảnh mới vào từ phải = Trái sang Phải) -->
+        <!-- Slide 1: Đại Sảnh Thông Tầng Hoàng Gia (Mặc định hiển thị ban đầu, index 1) -->
+        <div class="hero-slide-item active">
+          <img class="hero-slide-img" src="/assets/hero_slides/slide_01_foyer_emerald.jpg" alt="Đại Sảnh Dinh Thự Cẩm Thạch Xanh Lục Bảo" />
+        </div>
+
+        <!-- Slide 2: Vách Thông Tầng Phòng Khách Patagonia 7m (index 2) -->
+        <div class="hero-slide-item">
+          <img class="hero-slide-img" src="/assets/hero_slides/slide_02_living_room_wall.jpg" alt="Vách Thông Tầng Thạch Anh Patagonia Đối Vân" />
+        </div>
+
+        <!-- Slide 3: Đảo Bếp & Quầy Bar Đá Onyx Xuyên Sáng (index 3) -->
+        <div class="hero-slide-item">
+          <img class="hero-slide-img" src="/assets/hero_slides/slide_03_kitchen_onyx.jpg" alt="Đảo Bếp Hoàng Gia Onyx Xanh Phát Quang" />
+        </div>
+
+        <!-- Slide 4: Đại Cầu Thang Xoắn Ốc Cẩm Thạch Nguyên Khối (index 4) -->
+        <div class="hero-slide-item">
+          <img class="hero-slide-img" src="/assets/hero_slides/slide_04_grand_staircase.jpg" alt="Đại Cầu Thang Xoắn Ốc Hoàng Gia Đá Tự Nhiên" />
+        </div>
+
+        <!-- Slide 5: Phòng Tắm Master Suite Spa Arabescato (index 5) -->
+        <div class="hero-slide-item">
+          <img class="hero-slide-img" src="/assets/hero_slides/slide_05_master_spa.jpg" alt="Phòng Tắm Master Suite Spa Đá Arabescato" />
+        </div>
+
+        <!-- Buffer Clone of Slide 1 (index 6) — Để khi hết Slide 5 trượt liền mạch về Slide 1 -->
+        <div class="hero-slide-item">
+          <img class="hero-slide-img" src="/assets/hero_slides/slide_01_foyer_emerald.jpg" alt="Đại Sảnh Dinh Thự Cẩm Thạch Xanh Lục Bảo" />
+        </div>
+      </div>
+
+      <!-- Lớp Scrim Gradient Xanh Lục Bảo bảo vệ chữ tương phản sắc nét -->
+      <div class="hero-scrim-gradient"></div>
+    </div>
+
+    <!-- Nội dung Tiêu đề Slogan & Kêu gọi hành động -->
+    <div class="container-custom hero-content">
+      <h1 class="hero-headline">
+        <span class="headline-line-1">Tuyệt tác đá tự nhiên</span>
+        <span class="headline-line-2">ĐẲNG CẤP HOÀNG GIA</span>
+      </h1>
+      <p class="hero-description">
+        Tuyển tập những kiệt tác độc bản từ tạo hóa: Cẩm thạch Marble Ý thanh tao, Thạch anh Quartzite Brazil kiên cố vĩnh cửu, Hoa cương Granite quyền uy và Ngọc Onyx thấu quang huyền bí dành riêng cho các dinh thự đỉnh cao.
+      </p>
+
+      <div class="hero-cta-group">
+        <a href="#showroom" class="btn-primary-hero">Khám Phá Bộ Sưu Tập Slab</a>
+        <a href="/album.html" class="btn-secondary-hero">Chiêm Ngưỡng Album Đá Tự Nhiên</a>
+      </div>
+
+      <!-- Thanh chỉ báo 5 phân đoạn tiến trình (Nạp đầy nhịp 2.0s) & Tên khu vực -->
+      <div class="hero-slider-controls">
+        <div id="sliderZoneName" class="slider-zone-badge">
+          01 / 05 — ĐẠI SẢNH THÔNG TẦNG HOÀNG GIA
+        </div>
+
+        <div class="progress-segments-container">
+          <div class="progress-segment-bar active"><div class="progress-segment-fill"></div></div>
+          <div class="progress-segment-bar"><div class="progress-segment-fill"></div></div>
+          <div class="progress-segment-bar"><div class="progress-segment-fill"></div></div>
+          <div class="progress-segment-bar"><div class="progress-segment-fill"></div></div>
+          <div class="progress-segment-bar"><div class="progress-segment-fill"></div></div>
+        </div>
+
+        <div class="slider-nav-arrows">
+          <button id="btnHeroPrev" class="btn-slider-arrow" aria-label="Lùi ảnh">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button id="btnHeroNext" class="btn-slider-arrow" aria-label="Tiến ảnh">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. BỘ LỌC CHỦNG LOẠI ĐÁ (FILTER STRIP - STICKY) -->
+  <section id="showroom" class="filter-section">
+    <div class="container-custom">
+      <!-- 1. Danh mục chủng loại đá -->
+      <div class="filter-categories-nav">
+        <button class="filter-btn-category active" data-cat="all">Tất Cả Kiệt Tác</button>
+        <button class="filter-btn-category" data-cat="Marble">Marble Cẩm Thạch</button>
+        <button class="filter-btn-category" data-cat="Quartzite">Quartzite Thạch Anh</button>
+        <button class="filter-btn-category" data-cat="Granite">Granite Hoa Cương</button>
+        <button class="filter-btn-category" data-cat="Onyx">Onyx Xuyên Sáng</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. LƯỚI SẢN PHẨM ĐÁ XẾP THẲNG HÀNG & CUỘN VÔ TẬN -->
+  <main class="product-showcase-section">
+    <div class="container-custom">
+      <div class="section-header-wrap">
+        <div>
+          <div class="section-title-eyebrow">Kho Lưu Giữ Nguyên Tấm (Slab Gallery)</div>
+          <h2 class="section-title-main">Danh Mục Phiến Đá Tự Nhiên Độc Bản</h2>
+        </div>
+        <div id="productCounterText" class="product-counter-badge">
+          Đang nạp dữ liệu...
+        </div>
+      </div>
+
+      <!-- Lưới chứa các thẻ sản phẩm căn dóng thẳng hàng tuyệt đối -->
+      <div id="stoneProductGrid" class="stone-product-grid">
+        <!-- JS nạp tự động các thẻ đá vào đây -->
+      </div>
+
+      <!-- Vòng xoay nạp dữ liệu cuộn vô tận (Infinite Scroll Spinner) -->
+      <div id="infiniteSpinner" class="infinite-loading-indicator">
+        <div class="spinner-gold"></div>
+        <span class="loading-text">Đang tải thêm tuyệt tác đá tự nhiên từ kho...</span>
+      </div>
+
+      <!-- Điểm kích hoạt IntersectionObserver cuộn vô tận -->
+      <div id="infiniteSentinel" class="infinite-scroll-sentinel"></div>
+
+      <!-- Thông báo khi đã cuộn hết toàn bộ sản phẩm -->
+      <div id="infiniteEndMessage" class="infinite-end-message">
+        <div class="end-message-title font-serif">Đã Hiển Thị Toàn Bộ Bộ Sưu Tập</div>
+        <p class="end-message-desc">Quý khách có nhu cầu đặt hàng riêng các phiến đá khổ đặc biệt từ mỏ đá quốc tế, xin vui lòng kết nối hotline VIP.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- 5. ALBUM ĐÁ TỰ NHIÊN (SHOWCASE TRANG CHỦ & ĐIỀU HƯỚNG VÀO TOÀN BỘ ALBUM) -->
+  <section id="lookbook" class="product-showcase-section" style="background: #F4F3EF; border-top: 1px solid var(--color-stone-mist);">
+    <div class="container-custom">
+      <div class="section-header-wrap" style="flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <div class="section-title-eyebrow">Thư Viện Kiến Trúc Thực Tế</div>
+          <h2 class="section-title-main">ALBUM ĐÁ TỰ NHIÊN</h2>
+          <p style="color: var(--color-text-muted); font-size: 0.95rem; margin-top: 0.3rem;">Khám phá các kiệt tác không gian công trình thực tế đã thi công ứng dụng đá tự nhiên độc bản Queen Stone.</p>
+        </div>
+        <a href="/album.html" class="btn-primary-hero" style="display: inline-flex; align-items: center; gap: 0.6rem; text-decoration: none; padding: 0.75rem 1.4rem;">
+          <span>Khám Phá Toàn Bộ Album (Vô Hạn Ảnh)</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <!-- Lưới hiển thị 3 công trình tiêu biểu / trang -->
+      <div id="lookbookProjectsGrid" class="lookbook-projects-grid">
+        <!-- Nạp động qua JavaScript -->
+      </div>
+
+      <!-- Bộ chuyển trang phân trang -->
+      <div id="lookbookPagination" class="lookbook-pagination-wrap">
+        <!-- Nạp nút chuyển trang qua JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. MỤC LIÊN HỆ — HỆ THỐNG TRỤ SỞ CHÍNH & SHOWROOM TOÀN QUỐC -->
+  <section id="contact" class="product-showcase-section" style="scroll-margin-top: 86px;">
+    <a id="depots" style="position: relative; top: -86px; display: block; visibility: hidden;"></a>
+    <div class="container-custom">
+      <div class="section-header-wrap">
+        <div>
+          <div class="section-title-eyebrow">Hệ Thống Trụ Sở & Showroom Toàn Quốc</div>
+          <h2 class="section-title-main">LIÊN HỆ</h2>
+          <p style="color: var(--color-text-muted); font-size: 0.95rem; margin-top: 0.5rem; max-width: 780px;">
+            Queen Stone hân hạnh đón tiếp Quý khách hàng, Kiến trúc sư và Đối tác tại Trụ sở chính và hệ thống Showroom trưng bày đá tự nhiên Hoàng Gia nguyên tấm trên toàn quốc.
+          </p>
+        </div>
+      </div>
+
+      <div class="contact-branches-list">
+        <!-- HÀNG 1 (TRÊN CÙNG): TRỤ SỞ CHÍNH -->
+        <div class="contact-branch-row headquarters">
+          <!-- Ô 1: THÔNG TIN CÔNG TY (Tên Công ty, Địa chỉ, Email, Số điện thoại) -->
+          <div class="contact-info-col">
+            <div>
+              <span class="branch-badge headquarters">TRỤ SỞ CHÍNH TOÀN QUỐC</span>
+              <h3 id="siteCompanyName" class="branch-name">CÔNG TY CỔ PHẦN ĐÁ TỰ NHIÊN QUEEN STONE</h3>
+              <div class="contact-detail-list">
+                <div class="contact-detail-item">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/>
+                  </svg>
+                  <div>
+                    <span class="contact-label">Địa chỉ:</span>
+                    <span id="siteHeadquartersAddress" class="contact-text">Số 18 Đại Lộ Mai Chí Thọ, P. An Phú, TP. Thủ Đức, TP. Hồ Chí Minh</span>
+                  </div>
+                </div>
+                <div class="contact-detail-item">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                  </svg>
+                  <div>
+                    <span class="contact-label">Email:</span>
+                    <a id="siteEmail" href="mailto:contact@queenstone.vn" class="contact-link">contact@queenstone.vn</a>
+                  </div>
+                </div>
+                <div class="contact-detail-item">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M6.62 10.79a15.053 15.053 0 0 0 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                  </svg>
+                  <div>
+                    <span class="contact-label">Số điện thoại:</span>
+                    <a id="siteHotline" href="tel:0988888789" class="contact-link phone-link">0988.888.789</a>
+                    <span class="hotline-badge">Hotline VIP 24/7</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="branch-meta-footer">
+              <span id="siteWorkingHours">🕒 Giờ mở cửa: 08:00 - 18:30 (Cả Thứ 7, CN)</span>
+              <span>• Trữ lượng: 25.000 m²</span>
+              <span>• Cẩu trục 10 tấn, máy quét 3D vân đá</span>
+            </div>
+          </div>
+
+          <!-- Ô 2: BẢN ĐỒ GOOGLE MAP (Click vào mở ngay app Google Maps) -->
+          <a id="siteMapLink" href="https://www.google.com/maps/search/?api=1&query=18+Mai+Ch%C3%AD+Th%E1%BB%8D%2C+An+Ph%C3%BA%2C+Th%E1%BB%A7+%C4%90%E1%BB%A9c%2C+H%E1%BB%93+Ch%C3%AD+Minh" target="_blank" rel="noopener noreferrer" class="contact-map-col" title="Bấm vào để mở ứng dụng Google Maps chỉ đường đến Trụ sở chính">
+            <iframe id="siteMapIframe" src="https://maps.google.com/maps?q=18+Mai+Ch%C3%AD+Th%E1%BB%8D,+An+Ph%C3%BA,+Th%E1%BB%A7+%C4%90%E1%BB%A9c,+H%E1%BB%93+Ch%C3%AD+Minh&t=&z=15&ie=UTF8&iwloc=&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="branch-map-iframe" title="Bản đồ Google Map Trụ sở chính Queen Stone"></iframe>
+            <div class="branch-map-badge">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/>
+              </svg>
+              <span>Xem trên Google Maps &rarr;</span>
+            </div>
+          </a>
+
+          <!-- Ô 3: HÌNH ẢNH CÔNG TY -->
+          <div class="contact-image-col">
+            <img id="siteHeadquartersImg" src="/assets/branches/branch_tru_so_chinh.jpg" alt="Tòa nhà Trụ sở chính Queen Stone" class="branch-img" />
+            <span class="branch-img-caption">TÒA NHÀ TRỤ SỞ CHÍNH</span>
+          </div>
+        </div>
+
+        <!-- HỆ THỐNG SHOWROOM CHIẾN LƯỢC TOÀN QUỐC (TỰ ĐỘNG ĐỒNG BỘ CSDL) -->
+        <div id="dynamicShowroomList">
+          <!-- HÀNG 2: SHOWROOM 1 (MIỀN BẮC) -->
+          <div class="contact-branch-row">
+          <!-- Ô 1: THÔNG TIN SHOWROOM 1 -->
+          <div class="contact-info-col">
+            <div>
+              <span class="branch-badge showroom">SHOWROOM 1 — MIỀN BẮC</span>
+              <h3 class="branch-name">SHOWROOM & TỔNG KHO MIỀN BẮC (QUEEN STONE HÀ NỘI)</h3>
+              <div class="contact-detail-list">
+                <div class="contact-detail-item">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/>
+                  </svg>
+                  <div>
+                    <span class="contact-label">Địa chỉ:</span>
+                    <span class="contact-text">KCN Nam Từ Liêm, Đường Cầu Diễn, Q. Bắc Từ Liêm, TP. Hà Nội</span>
+                  </div>
+                </div>
+                <div class="contact-detail-item">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                  </svg>
+                  <div>
+                    <span class="contact-label">Email:</span>
+                    <a href="mailto:hanoi@queenstone.vn" class="contact-link">hanoi@queenstone.vn</a>
+                  </div>
+                </div>
+                <div class="contact-detail-item">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M6.62 10.79a15.053 15.053 0 0 0 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                  </svg>
+                  <div>
+                    <span class="contact-label">Số điện thoại:</span>
+                    <a href="tel:0988888123" class="contact-link phone-link">0988.888.123</a>
+                    <span class="hotline-badge">Hotline Hà Nội</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="branch-meta-footer">
+              <span>🕒 Giờ mở cửa: 08:00 - 18:00 (Cả Thứ 7, CN)</span>
+              <span>• Trữ lượng: 20.000 m²</span>
+              <span>• Cẩu trục đôi 12 tấn, phòng VIP CRI 98</span>
+            </div>
+          </div>
+
+          <!-- Ô 2: BẢN ĐỒ GOOGLE MAP -->
+          <a href="https://www.google.com/maps/search/?api=1&query=KCN+Nam+T%E1%BB%AB+Li%C3%AAm%2C+C%E1%BA%A7u+Di%E1%BB%85n%2C+B%E1%BA%AFc+T%E1%BB%AB+Li%C3%AAm%2C+H%C3%A0+N%E1%BB%99i" target="_blank" rel="noopener noreferrer" class="contact-map-col" title="Bấm vào để mở ứng dụng Google Maps chỉ đường đến Showroom 1 Hà Nội">
+            <iframe src="https://maps.google.com/maps?q=KCN+Nam+T%E1%BB%AB+Li%C3%AAm,+C%E1%BA%A7u+Di%E1%BB%85n,+B%E1%BA%AFc+T%E1%BB%AB+Li%C3%AAm,+H%C3%A0+N%E1%BB%99i&t=&z=15&ie=UTF8&iwloc=&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="branch-map-iframe" title="Bản đồ Google Map Showroom 1 Hà Nội"></iframe>
+            <div class="branch-map-badge">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/>
+              </svg>
+              <span>Xem trên Google Maps &rarr;</span>
+            </div>
+          </a>
+
+          <!-- Ô 3: HÌNH ẢNH SHOWROOM 1 -->
+          <div class="contact-image-col">
+            <img src="/assets/branches/branch_showroom_01_hanoi.jpg" alt="Showroom 1 Queen Stone Hà Nội" class="branch-img" />
+            <span class="branch-img-caption">SHOWROOM 1 — MIỀN BẮC</span>
+          </div>
+        </div>
+
+        <!-- HÀNG 3: SHOWROOM 2 (MIỀN TRUNG) -->
+        <div class="contact-branch-row">
+          <!-- Ô 1: THÔNG TIN SHOWROOM 2 -->
+          <div class="contact-info-col">
+            <div>
+              <span class="branch-badge showroom">SHOWROOM 2 — MIỀN TRUNG</span>
+              <h3 class="branch-name">SHOWROOM & TỔNG KHO MIỀN TRUNG (QUEEN STONE ĐÀ NẴNG)</h3>
+              <div class="contact-detail-list">
+                <div class="contact-detail-item">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/>
+                  </svg>
+                  <div>
+                    <span class="contact-label">Địa chỉ:</span>
+                    <span class="contact-text">Đường Trường Chinh, P. Hòa Phát, Q. Cẩm Lệ, TP. Đà Nẵng</span>
+                  </div>
+                </div>
+                <div class="contact-detail-item">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                  </svg>
+                  <div>
+                    <span class="contact-label">Email:</span>
+                    <a href="mailto:danang@queenstone.vn" class="contact-link">danang@queenstone.vn</a>
+                  </div>
+                </div>
+                <div class="contact-detail-item">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M6.62 10.79a15.053 15.053 0 0 0 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                  </svg>
+                  <div>
+                    <span class="contact-label">Số điện thoại:</span>
+                    <a href="tel:0988888456" class="contact-link phone-link">0988.888.456</a>
+                    <span class="hotline-badge">Hotline Đà Nẵng</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="branch-meta-footer">
+              <span>🕒 Giờ mở cửa: 08:00 - 17:30</span>
+              <span>• Trữ lượng: 15.000 m²</span>
+              <span>• Máy cắt tia nước CNC 5 trục</span>
+            </div>
+          </div>
+
+          <!-- Ô 2: BẢN ĐỒ GOOGLE MAP -->
+          <a href="https://www.google.com/maps/search/?api=1&query=Tr%C6%B0%E1%BB%9Dng+Chinh%2C+C%E1%BA%A9m+L%E1%BB%87%2C+%C4%90%C3%A0+N%E1%BA%B5ng" target="_blank" rel="noopener noreferrer" class="contact-map-col" title="Bấm vào để mở ứng dụng Google Maps chỉ đường đến Showroom 2 Đà Nẵng">
+            <iframe src="https://maps.google.com/maps?q=Tr%C6%B0%E1%BB%9Dng+Chinh,+C%E1%BA%A9m+L%E1%BB%87,+%C4%90%C3%A0+N%E1%BA%B5ng&t=&z=15&ie=UTF8&iwloc=&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="branch-map-iframe" title="Bản đồ Google Map Showroom 2 Đà Nẵng"></iframe>
+            <div class="branch-map-badge">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/>
+              </svg>
+              <span>Xem trên Google Maps &rarr;</span>
+            </div>
+          </a>
+
+          <!-- Ô 3: HÌNH ẢNH SHOWROOM 2 -->
+          <div class="contact-image-col">
+            <img src="/assets/branches/branch_showroom_02_danang.jpg" alt="Showroom 2 Queen Stone Đà Nẵng" class="branch-img" />
+            <span class="branch-img-caption">SHOWROOM 2 — MIỀN TRUNG</span>
+          </div>
+        </div>
+
+        <!-- HÀNG 4: SHOWROOM 3 (TÂY NAM BỘ) -->
+        <div class="contact-branch-row">
+          <!-- Ô 1: THÔNG TIN SHOWROOM 3 -->
+          <div class="contact-info-col">
+            <div>
+              <span class="branch-badge showroom">SHOWROOM 3 — TÂY NAM BỘ</span>
+              <h3 class="branch-name">SHOWROOM & TỔNG KHO TÂY NAM BỘ (QUEEN STONE CẦN THƠ)</h3>
+              <div class="contact-detail-list">
+                <div class="contact-detail-item">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/>
+                  </svg>
+                  <div>
+                    <span class="contact-label">Địa chỉ:</span>
+                    <span class="contact-text">Khu Nam Sông Hậu, P. Phú Thứ, Q. Cái Răng, TP. Cần Thơ</span>
+                  </div>
+                </div>
+                <div class="contact-detail-item">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                  </svg>
+                  <div>
+                    <span class="contact-label">Email:</span>
+                    <a href="mailto:cantho@queenstone.vn" class="contact-link">cantho@queenstone.vn</a>
+                  </div>
+                </div>
+                <div class="contact-detail-item">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M6.62 10.79a15.053 15.053 0 0 0 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                  </svg>
+                  <div>
+                    <span class="contact-label">Số điện thoại:</span>
+                    <a href="tel:0988888789" class="contact-link phone-link">0988.888.789</a>
+                    <span class="hotline-badge">Hotline Cần Thơ</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="branch-meta-footer">
+              <span>🕒 Giờ mở cửa: 08:00 - 17:30</span>
+              <span>• Trữ lượng: 12.000 m²</span>
+              <span>• Cẩu trục 8 tấn bọc cao su chống xước</span>
+            </div>
+          </div>
+
+          <!-- Ô 2: BẢN ĐỒ GOOGLE MAP -->
+          <a href="https://www.google.com/maps/search/?api=1&query=Khu+Nam+S%C3%B4ng+H%E1%BA%ADu%2C+C%C3%A1i+R%C4%83ng%2C+C%E1%BA%A7n+Th%C6%A1" target="_blank" rel="noopener noreferrer" class="contact-map-col" title="Bấm vào để mở ứng dụng Google Maps chỉ đường đến Showroom 3 Cần Thơ">
+            <iframe src="https://maps.google.com/maps?q=Khu+Nam+S%C3%B4ng+H%E1%BA%ADu,+C%C3%A1i+R%C4%83ng,+C%E1%BA%A7n+Th%C6%A1&t=&z=15&ie=UTF8&iwloc=&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="branch-map-iframe" title="Bản đồ Google Map Showroom 3 Cần Thơ"></iframe>
+            <div class="branch-map-badge">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/>
+              </svg>
+              <span>Xem trên Google Maps &rarr;</span>
+            </div>
+          </a>
+
+          <!-- Ô 3: HÌNH ẢNH SHOWROOM 3 -->
+          <div class="contact-image-col">
+            <img src="/assets/branches/branch_showroom_03_cantho.jpg" alt="Showroom 3 Queen Stone Cần Thơ" class="branch-img" />
+            <span class="branch-img-caption">SHOWROOM 3 — TÂY NAM BỘ</span>
+          </div>
+        </div>
+        </div> <!-- /#dynamicShowroomList -->
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. MODAL SOI VÂN ĐÁ (SLAB INSPECTION) -->
+  <div id="slabInspectionModal" class="modal-backdrop">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <span id="modalLotBadge" class="badge-lot-id" style="position: static; margin-bottom: 0.5rem; display: inline-block;">LOT QS-XXX</span>
+          <h2 id="modalTitle" class="font-serif" style="font-size: 1.6rem; color: var(--color-deep-charcoal);">Tên đá tự nhiên</h2>
+        </div>
+        <button id="modalCloseBtn" class="modal-close-btn">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Chế độ soi song song: Toàn tấm + Vân cận cảnh -->
+        <div class="dual-inspection-view">
+          <div class="inspection-box">
+            <img id="modalFullSlabImg" src="" alt="Ảnh toàn tấm slab" />
+            <span class="inspection-tag">FULL SLAB NGUYÊN TẤM</span>
+          </div>
+          <div class="inspection-box">
+            <img id="modalMacroImg" src="" alt="Ảnh soi vân cận cảnh" />
+            <span class="inspection-tag">MACRO VEIN (SOI VÂN VI MÔ)</span>
+          </div>
+        </div>
+
+        <!-- Bảng thông số chi tiết -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; background: var(--color-surface); padding: 1.25rem; border-radius: 4px; border: 1px solid var(--color-stone-mist); margin-bottom: 1.5rem;">
+          <div>
+            <span class="spec-item-label">Xuất Xứ</span>
+            <div id="modalOrigin" class="spec-item-val">Ý</div>
+          </div>
+          <div>
+            <span class="spec-item-label">Kích Thước Khổ Slab</span>
+            <div id="modalDimensions" class="spec-item-val font-mono">3000 x 1800 x 20 mm</div>
+          </div>
+          <div>
+            <span class="spec-item-label">Bề Mặt Xử Lý</span>
+            <div id="modalFinish" class="spec-item-val">Bóng gương (Polished)</div>
+          </div>
+          <div>
+            <span class="spec-item-label">Tồn Kho Khả Dụng</span>
+            <div id="modalStock" class="spec-item-val font-mono text-emerald">Còn 12 tấm</div>
+          </div>
+        </div>
+
+        <p id="modalDesc" style="font-size: 0.95rem; color: var(--color-text-muted); margin-bottom: 2rem; line-height: 1.7;"></p>
+
+        <!-- Nút bấm Zalo 1-Click VIP -->
+        <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+          <a id="modalZaloBtn" href="#" target="_blank" class="btn-primary-hero" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.95.56 3.77 1.52 5.31L2.5 21.5l4.35-1.01C8.34 21.36 10.1 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z"/></svg>
+            <span>Giữ Lô Đá Này Qua Zalo 1-Click</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. MODAL ĐĂNG NHẬP QUẢN TRỊ VIÊN (ADMIN LOGIN PORTAL) -->
+  <div id="adminWarehouseModal" class="modal-backdrop">
+    <div class="modal-content" style="max-width: 480px; border-radius: 12px; border: 1px solid var(--color-royal-gold);">
+      <div class="modal-header">
+        <div>
+          <span style="font-family: var(--font-primary); font-size: 0.75rem; color: var(--color-royal-gold); font-weight: 700; letter-spacing: 0.06em;">CỔNG ĐIỀU HÀNH HOÀNG GIA</span>
+          <h2 style="font-size: 1.35rem; font-weight: 700; color: var(--color-deep-charcoal); margin-top: 0.2rem;">Đăng Nhập Quản Trị Viên</h2>
+        </div>
+        <button id="adminCloseBtn" class="modal-close-btn">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Form Đăng Nhập Quản Trị Chính -->
+        <form id="formAdminHomeLogin">
+          <div style="margin-bottom: 1.25rem;">
+            <label class="spec-item-label" style="display: block; margin-bottom: 0.4rem; font-weight: 600;">Tên Đăng Nhập</label>
+            <input type="text" id="homeLoginUser" placeholder="Nhập tên đăng nhập" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-stone-mist); border-radius: 6px; font-size: 0.95rem;" />
+          </div>
+
+          <div style="margin-bottom: 1.25rem;">
+            <label class="spec-item-label" style="display: block; margin-bottom: 0.4rem; font-weight: 600;">Mật Khẩu Quản Trị</label>
+            <input type="password" id="homeLoginPass" placeholder="••••••••" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-stone-mist); border-radius: 6px; font-size: 0.95rem;" />
+          </div>
+
+          <div id="adminFeedbackMsg" style="display: none; padding: 0.65rem 0.85rem; border-radius: 6px; font-size: 0.85rem; margin-bottom: 1rem;"></div>
+
+          <button type="submit" id="btnSubmitAdminLogin" class="btn-primary-hero" style="width: 100%; justify-content: center; padding: 0.85rem; font-weight: 700;">
+            <span>Đăng Nhập Vào Trang Quản Trị</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. CHÂN TRANG HOÀNG GIA (FOOTER) -->
+  <footer class="site-footer">
+    <div class="container-custom">
+      <div class="footer-inner">
+        <div>
+          <div id="footerBrandName" class="footer-brand-name">QUEEN STONE</div>
+          <p style="font-size: 0.9rem; line-height: 1.7; max-width: 400px;">
+            Nhà cung cấp và nhập khẩu đá tự nhiên nguyên tấm hàng đầu Việt Nam. Nơi hội tụ những tuyệt tác đá cẩm thạch, thạch anh và ngọc xuyên sáng đẳng cấp thế giới.
+          </p>
+        </div>
+
+        <div>
+          <h4 style="color: var(--color-royal-gold); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem;">Liên Hệ Trực Tiếp</h4>
+          <p style="font-size: 0.85rem; margin-bottom: 0.5rem;">Hotline VIP: <strong id="footerHotline">0988.888.789</strong></p>
+          <p style="font-size: 0.85rem; margin-bottom: 0.5rem;">Email: <span id="footerEmail">contact@queenstone.vn</span></p>
+          <p style="font-size: 0.85rem;">Thời gian: <span id="footerHours">08:00 - 18:30 hàng ngày</span></p>
+        </div>
+
+        <div>
+          <h4 style="color: var(--color-royal-gold); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem;">Bảo Chứng Chất Lượng</h4>
+          <p style="font-size: 0.85rem; margin-bottom: 0.5rem;">✓ 100% Khai thác tự nhiên</p>
+          <p style="font-size: 0.85rem; margin-bottom: 0.5rem;">✓ Nhập khẩu nguyên khối chính ngạch</p>
+          <p style="font-size: 0.85rem;">✓ Đo đạc kiểm định 3D từng tấm slab</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 QUEEN STONE. All rights reserved.</span>
+        <span style="color: var(--color-royal-gold);">Architectural Excellence in Natural Stone</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- File logic tương tác -->
+  <script src="/js/app.js"></script>
+</body>
+</html>

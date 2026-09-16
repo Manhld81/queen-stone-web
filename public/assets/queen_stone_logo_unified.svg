@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 64" width="320" height="64" fill="none">
+  <!-- Queen Stone Royal Luxury Unified Logo (Crown Symbol + Text Brand as Unified Graphic) -->
+  <defs>
+    <!-- Hoàng Gia Gold Gradient -->
+    <linearGradient id="qsCrownGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F2D07C" />
+      <stop offset="50%" stop-color="#D4AF37" />
+      <stop offset="100%" stop-color="#AA7C11" />
+    </linearGradient>
+    <linearGradient id="qsCrownBaseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D4AF37" />
+      <stop offset="100%" stop-color="#8C660D" />
+    </linearGradient>
+    <filter id="qsGoldGlow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-color="#D4AF37" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- BIỂU TƯỢNG VƯƠNG MIỆN HOÀNG GIA (CROWN ICON) -->
+  <g transform="translate(6, 10)" filter="url(#qsGoldGlow)">
+    <!-- Đỉnh và thân vương miện 5 cánh -->
+    <path d="M4 30 L0 8 L11 18 L22 6 L33 18 L44 8 L40 30 Z" fill="url(#qsCrownGoldGrad)" />
+    <!-- Đế vương miện bọc vàng -->
+    <rect x="1" y="34" width="42" height="6" rx="2" fill="url(#qsCrownBaseGrad)" />
+    <!-- Viên đá quý sapphire / emerald cách điệu trên đế -->
+    <circle cx="9" cy="37" r="1.5" fill="#FFFFFF" opacity="0.9" />
+    <circle cx="22" cy="37" r="2" fill="#FFFFFF" opacity="0.95" />
+    <circle cx="35" cy="37" r="1.5" fill="#FFFFFF" opacity="0.9" />
+  </g>
+
+  <!-- CHỮ THƯƠNG HIỆU HỢP NHẤT: QUEEN STONE -->
+  <g transform="translate(64, 43)">
+    <text font-family="'Playfair Display', 'Be Vietnam Pro', 'Cinzel', 'Trajan Pro', 'Georgia', serif" 
+          font-size="28" 
+          font-weight="800" 
+          letter-spacing="0.08em" 
+          fill="#1C2127">
+      QUEEN
+    </text>
+    <text x="110" 
+          font-family="'Playfair Display', 'Be Vietnam Pro', 'Cinzel', 'Trajan Pro', 'Georgia', serif" 
+          font-size="28" 
+          font-weight="800" 
+          letter-spacing="0.08em" 
+          fill="#1C2127">
+      STONE
+    </text>
+  </g>
+</svg>

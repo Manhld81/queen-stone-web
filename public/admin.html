@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Queen Stone — Bảng Điều Hành Quản Trị Hệ Thống Hoàng Gia</title>
+  <meta name="description" content="Trung tâm quản trị website Queen Stone: Cấu hình Logo, Quản lý kho đá độc bản, Thư viện album và Hệ thống Showroom toàn quốc." />
+  
+  <!-- Phông chữ Google Fonts chuẩn mực: Playfair Display + Be Vietnam Pro + Roboto -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  
+  <!-- Favicon biểu tượng Vương miện Hoàng gia Queen Stone -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon_crown.svg" />
+  <link rel="alternate icon" href="/favicon.svg" />
+
+  <link rel="stylesheet" href="/css/admin.css" />
+  
+  <script>
+    // Kiểm tra token xác thực tức thì trước khi vẽ DOM (Zero-FOUC)
+    try {
+      if (localStorage.getItem('queen_stone_admin_token') === 'qs_token_admin_8888') {
+        document.documentElement.classList.add('is-authenticated');
+      }
+    } catch (e) {}
+  </script>
+  <style>
+    /* Chống chớp giật màn hình đăng nhập (Zero-FOUC) */
+    html.is-authenticated #adminAuthLock {
+      display: none !important;
+    }
+    html.is-authenticated #adminApp {
+      display: block !important;
+    }
+  </style>
+</head>
+<body class="admin-body">
+
+  <!-- 1. MÀN HÌNH KHÓA ĐĂNG NHẬP (NẾU CHƯA XÁC THỰC) -->
+  <div id="adminAuthLock" class="auth-lock-overlay" style="display: none;">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-crown">
+          <svg viewBox="0 0 24 24" width="44" height="44" fill="#D4AF37">
+            <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/>
+          </svg>
+        </div>
+        <h1 class="auth-title">QUEEN STONE ADMIN</h1>
+        <p class="auth-subtitle">Cổng Quản Trị Hệ Thống Hoàng Gia</p>
+      </div>
+
+      <form id="adminLoginForm" class="auth-form">
+        <div class="form-group">
+          <label class="form-label" for="authUsername">Tên Đăng Nhập</label>
+          <input type="text" id="authUsername" class="form-input" placeholder="Nhập tên đăng nhập" required autocomplete="username" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="authPassword">Mật Khẩu Quản Trị</label>
+          <input type="password" id="authPassword" class="form-input" placeholder="••••••••" required autocomplete="current-password" />
+        </div>
+
+        <div id="authErrorMsg" class="auth-error-box" style="display: none;"></div>
+
+        <button type="submit" id="btnSubmitLogin" class="btn-auth-submit">
+          <span>Xác Nhận Đăng Nhập</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. GIAO DIỆN QUẢN TRỊ VIÊN CHÍNH (KHI ĐÃ ĐĂNG NHẬP) -->
+  <div id="adminApp" class="admin-wrapper" style="display: none;">
+
+    <!-- TOPBAR HOÀNG GIA -->
+    <header class="admin-topbar">
+      <div class="topbar-brand">
+        <a href="/" target="_blank" title="Xem mặt tiền Web (Showroom)">
+          <img id="adminHeaderLogo" src="/assets/queen_stone_logo_unified.svg" alt="Queen Stone" class="admin-logo-img" />
+        </a>
+        <span class="badge-role">BẢNG ĐIỀU HÀNH QUẢN TRỊ</span>
+      </div>
+
+      <div class="topbar-right">
+        <a href="/" target="_blank" class="btn-topbar-link" title="Mở trang chủ Showroom trong tab mới">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          <span>Xem Website Thực Tế</span>
+        </a>
+
+        <div class="user-pill">
+          <span class="user-status-dot"></span>
+          <span class="user-name">Admin (Mike Lam)</span>
+        </div>
+
+        <button id="btnLogout" class="btn-logout" title="Đăng xuất khỏi hệ thống">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+          <span>Đăng xuất</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- THANH ĐIỀU HƯỚNG TABS THEO ĐÚNG 4 THỨ TỰ YÊU CẦU CỦA ANH MIKE -->
+    <nav class="admin-tab-nav">
+      <div class="tab-nav-inner">
+        <button class="tab-btn active" data-tab="tab-logo">
+          <span class="tab-number">1</span>
+          <span class="tab-label">Cấu Hình Logo Website</span>
+        </button>
+
+        <button class="tab-btn" data-tab="tab-stones">
+          <span class="tab-number">2</span>
+          <span class="tab-label">Phiến Đá Độc Bản & Tồn Kho</span>
+        </button>
+
+        <button class="tab-btn" data-tab="tab-album">
+          <span class="tab-number">3</span>
+          <span class="tab-label">Album Đá Tự Nhiên</span>
+        </button>
+
+        <button class="tab-btn" data-tab="tab-contact">
+          <span class="tab-number">4</span>
+          <span class="tab-label">Liên Hệ & Showroom Vô Hạn</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- NỘI DUNG CHÍNH CÁC TAB -->
+    <main class="admin-main">
+
+      <!-- ====================================================================
+           TAB 1: CẤU HÌNH LOGO WEBSITE (THAY ĐỔI & UPLOAD LOGO HỢP NHẤT)
+           ==================================================================== -->
+      <section id="tab-logo" class="tab-pane active">
+        <div class="pane-header">
+          <div>
+            <h2 class="pane-title">1. Cấu Hình Logo Website Queen Stone</h2>
+            <p class="pane-desc">Thay thế Logo hiển thị trên toàn bộ Website (Header thanh điều hướng, Footer chân trang và Bảng quản trị).</p>
+          </div>
+        </div>
+
+        <!-- HỘP CHÚ THÍCH KÍCH THƯỚC VÀ ĐẶC TẢ LOGO -->
+        <div class="guideline-card">
+          <div class="guideline-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          </div>
+          <div class="guideline-content">
+            <h4 class="guideline-title">QUY CHUẨN KÍCH THƯỚC & ĐỊNH DẠNG LOGO KHUYẾN NGHỊ:</h4>
+            <ul class="guideline-list">
+              <li><strong>Kích thước chuẩn:</strong> <span class="highlight-spec">320px x 64px</span> hoặc <span class="highlight-spec">480px x 96px</span> (Tỷ lệ chiều rộng : chiều cao từ <strong>3:1 đến 5:1</strong>). Chiều cao hiển thị thanh lịch chuẩn mực trên Website là <span class="highlight-spec">58px</span>.</li>
+              <li><strong>Định dạng tối ưu:</strong> <span class="highlight-spec">PNG trong suốt</span> (Transparent), <span class="highlight-spec">SVG (Vector)</span> hoặc <span class="highlight-spec">WebP</span>.</li>
+              <li><strong>Quy cách hợp nhất:</strong> <em>Biểu tượng Vương miện và chữ QUEEN STONE phải nằm chung trong tệp ảnh thành 1 thể thống nhất</em> (đồ họa hợp nhất dạng ảnh, không tách rời text).</li>
+              <li><strong>Độ phân giải:</strong> Sắc nét chuẩn Retina 2x, dung lượng nhẹ &lt; 500KB để trang web tải tức thì.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="logo-config-grid">
+          <!-- Cột bên trái: Xem trước Logo trực tiếp -->
+          <div class="config-card">
+            <h3 class="card-title">Xem Trước Logo Hiện Tại</h3>
+            
+            <div class="preview-box-group">
+              <div class="preview-box light-bg">
+                <span class="preview-label">Hiển thị trên Nền Sáng (Mặt Tiền Showroom):</span>
+                <div class="preview-canvas">
+                  <img id="logoPreviewLight" src="/assets/queen_stone_logo_unified.svg" alt="Preview Logo Light" />
+                </div>
+              </div>
+
+              <div class="preview-box dark-bg">
+                <span class="preview-label">Hiển thị trên Nền Tối:</span>
+                <div class="preview-canvas">
+                  <img id="logoPreviewDark" src="/assets/queen_stone_logo_unified.svg" alt="Preview Logo Dark" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cột bên phải: Form Upload & Nhập URL Logo -->
+          <div class="config-card">
+            <h3 class="card-title">Tải Lên Hoặc Thay Thế Logo</h3>
+
+            <form id="formUpdateLogo">
+              <div class="form-group">
+                <label class="form-label">Chọn tệp Logo từ máy tính:</label>
+                <div class="file-upload-dropzone">
+                  <input type="file" id="inputLogoFile" accept="image/png,image/svg+xml,image/jpeg,image/webp" class="file-input-hidden" />
+                  <label for="inputLogoFile" class="dropzone-label">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                    <span class="dropzone-text">Bấm vào đây để chọn tệp ảnh Logo mới</span>
+                    <span class="dropzone-hint">(Định dạng PNG trong suốt, SVG, WebP — Kích thước chuẩn: 320x64px hoặc 480x96px)</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-divider"><span>HOẶC NHẬP ĐƯỜNG DẪN ẢNH (URL)</span></div>
+
+              <div class="form-group">
+                <label class="form-label" for="inputLogoUrl">Đường dẫn Logo (URL / Path):</label>
+                <input type="text" id="inputLogoUrl" class="form-input" placeholder="/assets/queen_stone_logo_unified.svg hoặc https://..." />
+              </div>
+
+              <button type="submit" id="btnSaveLogo" class="btn-primary-action">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                <span>Lưu & Cập Nhật Logo Toàn Bộ Website</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           TAB 2: PHIẾN ĐÁ TỰ NHIÊN ĐỘC BẢN (CRUD & QUẢN TRỊ LƯỢNG HÀNG TỒN)
+           ==================================================================== -->
+      <section id="tab-stones" class="tab-pane">
+        <div class="pane-header">
+          <div>
+            <h2 class="pane-title">2. Danh Mục Phiến Đá Tự Nhiên Độc Bản & Quản Trị Tồn Kho</h2>
+            <p class="pane-desc">Thêm, sửa, xóa thông tin chi tiết từng phiến đá, ảnh toàn cảnh Slab, ảnh soi vân vi mô và cập nhật số lượng tồn kho theo thời gian thực.</p>
+          </div>
+          <button id="btnOpenAddStoneModal" class="btn-primary-action">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span>+ Thêm Phiến Đá Mới Về Kho</span>
+          </button>
+        </div>
+
+        <!-- HỘP THỐNG KÊ TỒN KHO TỨC THÌ -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <span class="kpi-title">Tổng Số Lô Đá</span>
+            <span id="kpiTotalStones" class="kpi-val">--</span>
+            <span class="kpi-desc">Vỉa đá tự nhiên quản lý</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-title">Tổng Diện Tích Tồn</span>
+            <span id="kpiTotalM2" class="kpi-val gold">-- m²</span>
+            <span class="kpi-desc">Khả dụng sẵn sàng xuất kho</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-title">Tổng Số Tấm Tồn</span>
+            <span id="kpiTotalSlabs" class="kpi-val">-- tấm</span>
+            <span class="kpi-desc">Số tấm slab thực tế trong kho</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-title">Số Lô Hết Hàng</span>
+            <span id="kpiOutOfStock" class="kpi-val red">--</span>
+            <span class="kpi-desc">Lô đá có lượng tồn = 0</span>
+          </div>
+        </div>
+
+        <!-- THANH TÌM KIẾM VÀ BỘ LỌC -->
+        <div class="filter-toolbar">
+          <div class="search-box">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="stoneSearchInput" placeholder="Tìm kiếm theo mã lô (QS-...), tên mẫu đá, xuất xứ..." />
+          </div>
+
+          <div class="filter-actions">
+            <select id="stoneFilterCategory" class="toolbar-select">
+              <option value="all">Tất cả chủng loại</option>
+              <option value="Marble">Đá Marble</option>
+              <option value="Quartzite">Đá Quartzite</option>
+              <option value="Granite">Đá Granite</option>
+              <option value="Onyx">Đá Onyx</option>
+            </select>
+
+            <select id="stoneFilterStock" class="toolbar-select">
+              <option value="all">Tất cả trạng thái tồn</option>
+              <option value="in_stock">Còn hàng (&gt; 0 tấm)</option>
+              <option value="out_of_stock">Đã hết lô (= 0 tấm)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- BẢNG DỮ LIỆU ĐÁ TỰ NHIÊN -->
+        <div class="table-container">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th style="width: 80px;">Ảnh Slab</th>
+                <th style="width: 130px;">Mã Lô</th>
+                <th>Tên Mẫu Đá & Xuất Xứ</th>
+                <th style="width: 100px;">Chủng Loại</th>
+                <th style="width: 140px;">Quy Cách (DxRxD)</th>
+                <th style="width: 120px; text-align: center;">Số Tấm Tồn</th>
+                <th style="width: 120px; text-align: right;">Diện Tích (m²)</th>
+                <th style="width: 110px; text-align: center;">Trạng Thái</th>
+                <th style="width: 130px; text-align: center;">Thao Tác</th>
+              </tr>
+            </thead>
+            <tbody id="stoneTableBody">
+              <tr><td colspan="9" class="table-loading">Đang tải danh sách phiến đá...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           TAB 3: ALBUM ĐÁ TỰ NHIÊN (CRUD HÌNH ẢNH & THÔNG TIN CÔNG TRÌNH)
+           ==================================================================== -->
+      <section id="tab-album" class="tab-pane">
+        <div class="pane-header">
+          <div>
+            <h2 class="pane-title">3. Quản Trị Album Đá Tự Nhiên (Thư Viện Không Gian Thực Tế)</h2>
+            <p class="pane-desc">Thêm, sửa, xóa ảnh công trình thực tế thi công đá tự nhiên cho dinh thự, biệt thự và penthouse.</p>
+          </div>
+          <button id="btnOpenAddAlbumModal" class="btn-primary-action">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span>+ Thêm Ảnh Mới Vào Album</span>
+          </button>
+        </div>
+
+        <!-- HỘP QUY CHUẨN KÍCH THƯỚC ẢNH ALBUM -->
+        <div class="guideline-card">
+          <div class="guideline-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          </div>
+          <div class="guideline-content">
+            <h4 class="guideline-title">QUY CHUẨN KÍCH THƯỚC ẢNH ALBUM ĐÁ TỰ NHIÊN:</h4>
+            <p class="guideline-text">
+              • <strong>Kích thước khuyến nghị:</strong> <span class="highlight-spec">1200 x 800 px</span> hoặc <span class="highlight-spec">1600 x 1060 px</span> (Tỷ lệ <strong>3:2</strong> hoặc <strong>4:3</strong>).<br />
+              • <strong>Định dạng:</strong> JPG hoặc WebP sắc nét cao. Ảnh chụp góc rộng bao quát không gian kiến trúc và chi tiết hoa văn đá ốp lát.
+            </p>
+          </div>
+        </div>
+
+        <!-- BỘ LỌC DANH MỤC KHÔNG GIAN -->
+        <div class="filter-toolbar">
+          <div class="filter-tabs-pills" id="albumCategoryFilter">
+            <button class="pill-btn active" data-category="all">Tất Cả Không Gian</button>
+            <button class="pill-btn" data-category="Đại Sảnh">Đại Sảnh</button>
+            <button class="pill-btn" data-category="Phòng Khách">Phòng Khách</button>
+            <button class="pill-btn" data-category="Khu Bếp">Khu Bếp</button>
+            <button class="pill-btn" data-category="Cầu Thang">Cầu Thang</button>
+            <button class="pill-btn" data-category="Master Spa">Master Spa</button>
+            <button class="pill-btn" data-category="Mặt Tiền">Mặt Tiền</button>
+          </div>
+          <div class="album-counter">Tổng số: <strong id="albumTotalCount">0</strong> ảnh</div>
+        </div>
+
+        <!-- LƯỚI CARD ẢNH ALBUM -->
+        <div id="albumCardsGrid" class="album-cards-grid">
+          <div class="table-loading">Đang tải thư viện ảnh Album...</div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           TAB 4: LIÊN HỆ & SHOWROOM (THÔNG TIN CHUNG & THÊM VÔ HẠN SHOWROOM)
+           ==================================================================== -->
+      <section id="tab-contact" class="tab-pane">
+        <div class="pane-header">
+          <div>
+            <h2 class="pane-title">4. Quản Lý Thông Tin Liên Hệ & Hệ Thống Showroom Toàn Quốc</h2>
+            <p class="pane-desc">Cập nhật thông tin hotline, email, trụ sở chính và quản lý thêm vô hạn các Showroom & Tổng kho trên toàn quốc.</p>
+          </div>
+          <button id="btnOpenAddDepotModal" class="btn-primary-action">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span>+ Thêm Showroom Mới (Vô Hạn)</span>
+          </button>
+        </div>
+
+        <!-- PHẦN 4A: THÔNG TIN LIÊN HỆ CHUNG WEBSITE & TRỤ SỞ CHÍNH -->
+        <div class="config-card" style="margin-bottom: 2rem;">
+          <h3 class="card-title">4A. Thông Tin Liên Hệ Chung & Trụ Sở Chính Toàn Quốc</h3>
+
+          <!-- CHÚ THÍCH KÍCH THƯỚC ẢNH TRỤ SỞ -->
+          <div class="guideline-card" style="margin-bottom: 1.25rem;">
+            <div class="guideline-content">
+              <span class="highlight-spec">Kích thước ảnh Trụ sở / Showroom khuyến nghị: 800 x 600 px (Tỷ lệ 4:3)</span> hoặc 1200 x 800 px, định dạng JPG/WebP thể hiện mặt tiền tòa nhà sang trọng.
+            </div>
+          </div>
+
+          <form id="formGlobalContact">
+            <!-- NÚT CẬP NHẬT THÔNG TIN MỚI Ở GÓC BÊN TRÁI PHÍA TRÊN -->
+            <div style="display: flex; justify-content: flex-start; align-items: center; margin-bottom: 1.25rem;">
+              <button type="submit" id="btnSaveGlobalContactTop" class="btn-primary-action" style="margin: 0;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                <span>Cập Nhật Thông Tin Mới</span>
+              </button>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label" for="cfgCompanyName">Tên Doanh Nghiệp / Thương Hiệu:</label>
+                <input type="text" id="cfgCompanyName" class="form-input" required />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="cfgHotline">Hotline VIP Tiếp Nhận:</label>
+                <input type="text" id="cfgHotline" class="form-input" required />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="cfgEmail">Email Tiếp Nhận:</label>
+                <input type="email" id="cfgEmail" class="form-input" required />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="cfgWorkingHours">Thời Gian Mở Cửa:</label>
+                <input type="text" id="cfgWorkingHours" class="form-input" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="cfgHeadquartersAddress">Địa Chỉ Trụ Sở Chính Toàn Quốc:</label>
+              <input type="text" id="cfgHeadquartersAddress" class="form-input" required />
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label" for="cfgHeadquartersImage">Ảnh Mặt Tiền Trụ Sở (Chuẩn: 800x600 px):</label>
+                <div class="input-with-upload">
+                  <input type="text" id="cfgHeadquartersImage" class="form-input" placeholder="/assets/branches/... hoặc URL" />
+                  <input type="file" id="uploadHeadquartersImage" accept="image/*" class="file-input-hidden" />
+                  <label for="uploadHeadquartersImage" class="btn-secondary-upload">Chọn Tệp</label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="cfgMapEmbedUrl">Đường Dẫn Nhúng Bản Đồ Google Map (iframe src):</label>
+                <input type="text" id="cfgMapEmbedUrl" class="form-input" />
+              </div>
+            </div>
+
+            <!-- NÚT CẬP NHẬT THÔNG TIN MỚI Ở GÓC BÊN TRÁI PHÍA DƯỚI -->
+            <div style="display: flex; justify-content: flex-start; align-items: center; margin-top: 1.5rem;">
+              <button type="submit" id="btnSaveGlobalContact" class="btn-primary-action" style="margin: 0;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                <span>Cập Nhật Thông Tin Mới</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- PHẦN 4B: DANH SÁCH HỆ THỐNG SHOWROOM & TỔNG KHO (THÊM VÔ HẠN) -->
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h3 class="card-title" style="margin: 0;">4B. Mạng Lưới Showroom & Tổng Kho Chiến Lược</h3>
+            <span style="font-size: 0.85rem; color: var(--gold-primary);">Hỗ trợ thêm vô hạn showroom mới</span>
+          </div>
+
+          <div id="depotCardsList" class="depot-cards-list">
+            <div class="table-loading">Đang tải danh sách hệ thống Showroom...</div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ====================================================================
+       MODALS QUẢN TRỊ (POPUP FORMS)
+       ==================================================================== -->
+
+  <!-- MODAL 1: THÊM / SỬA PHIẾN ĐÁ TỰ NHIÊN -->
+  <div id="modalStone" class="admin-modal-backdrop">
+    <div class="admin-modal-box">
+      <div class="modal-header">
+        <div>
+          <span class="modal-eyebrow">QUẢN TRỊ KHO ĐÁ ĐỘC BẢN</span>
+          <h3 id="modalStoneTitle" class="modal-title">Thêm Phiến Đá Mới Về Kho</h3>
+        </div>
+        <button class="modal-close" data-modal="modalStone">&times;</button>
+      </div>
+
+      <form id="formStoneModal" class="modal-body">
+        <input type="hidden" id="stoneId" />
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="stoneMaLo">Mã Lô Độc Bản (*):</label>
+            <input type="text" id="stoneMaLo" class="form-input mono" placeholder="Ví dụ: QS-CALA-999" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="stoneTenDa">Tên Mẫu Đá (*):</label>
+            <input type="text" id="stoneTenDa" class="form-input" placeholder="Ví dụ: Calacatta Borghini Extra" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="stoneLoaiDa">Chủng Loại (*):</label>
+            <select id="stoneLoaiDa" class="form-input" required>
+              <option value="Marble">Đá Marble (Cẩm Thạch)</option>
+              <option value="Quartzite">Đá Quartzite (Thạch Anh Tự Nhiên)</option>
+              <option value="Granite">Đá Granite (Hoa Cương)</option>
+              <option value="Onyx">Đá Onyx (Ngọc Xuyên Sáng)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="stoneMauSac">Tông Màu Sắc (*):</label>
+            <input type="text" id="stoneMauSac" class="form-input" placeholder="Trắng, Đen, Xanh, Vàng..." required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="stoneXuatXu">Xuất Xứ Mỏ Khai Thác:</label>
+            <input type="text" id="stoneXuatXu" class="form-input" placeholder="Carrara, Italy / Brazil / Hy Lạp..." />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="stoneBeMat">Kiểu Hoàn Thiện Bề Mặt:</label>
+            <input type="text" id="stoneBeMat" class="form-input" value="Polished (Bóng gương)" />
+          </div>
+        </div>
+
+        <!-- KHUNG QUY CÁCH VÀ QUẢN LÝ LƯỢNG HÀNG TỒN -->
+        <div class="stock-calculator-box">
+          <h4 class="box-subtitle">QUY CÁCH VÀ QUẢN LÝ LƯỢNG HÀNG TỒN:</h4>
+          
+          <div class="form-grid-3">
+            <div class="form-group">
+              <label class="form-label" for="stoneChieuDai">Dài (mm) (*):</label>
+              <input type="number" id="stoneChieuDai" class="form-input" placeholder="2950" required min="500" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="stoneChieuRong">Rộng (mm) (*):</label>
+              <input type="number" id="stoneChieuRong" class="form-input" placeholder="1850" required min="300" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="stoneDoDay">Dày (mm):</label>
+              <input type="number" id="stoneDoDay" class="form-input" value="20" min="10" />
+            </div>
+          </div>
+
+          <div class="form-grid-2" style="margin-top: 0.85rem;">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" for="stoneSoLuongTam" style="color: var(--gold-primary); font-weight: 700;">
+                Số Tấm Tồn (*):
+              </label>
+              <input type="number" id="stoneSoLuongTam" class="form-input" placeholder="Nhập số tấm tồn..." required min="0" />
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" for="stoneDienTichM2" style="color: #2ECC71; font-weight: 700;">
+                Tổng Diện Tích Tồn Thực Tế (m²) (*):
+              </label>
+              <input type="number" step="0.01" id="stoneDienTichM2" class="form-input" placeholder="Nhập tổng diện tích tồn m² (VD: 62.58)..." required min="0" style="color: #2ECC71; font-weight: 700; border-color: rgba(46, 204, 113, 0.4);" />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="stoneUngDung">Ứng Dụng Đề Xuất:</label>
+          <input type="text" id="stoneUngDung" class="form-input" placeholder="Vách Phòng Khách, Đảo Bếp, Sàn Sảnh..." />
+        </div>
+
+        <!-- ẢNH TOÀN CẢNH SLAB & ẢNH MACRO SOI VÂN KÈM CHÚ THÍCH KÍCH THƯỚC -->
+        <div class="form-grid-2">
+          <div class="form-group">
+            <div class="label-with-hint">
+              <label class="form-label" for="stoneHinhAnhSlab">Ảnh Toàn Cảnh Slab (*):</label>
+              <span class="dim-hint">Kích thước: 1200 x 800 px (3:2)</span>
+            </div>
+            <div class="input-with-upload">
+              <input type="text" id="stoneHinhAnhSlab" class="form-input" placeholder="URL ảnh slab..." required />
+              <input type="file" id="uploadStoneSlab" accept="image/*" class="file-input-hidden" />
+              <label for="uploadStoneSlab" class="btn-secondary-upload">Chọn Tệp</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="label-with-hint">
+              <label class="form-label" for="stoneHinhAnhMacro">Ảnh Macro Soi Vân Vi Mô (*):</label>
+              <span class="dim-hint">Kích thước: 800 x 800 px (1:1)</span>
+            </div>
+            <div class="input-with-upload">
+              <input type="text" id="stoneHinhAnhMacro" class="form-input" placeholder="URL ảnh soi vân..." required />
+              <input type="file" id="uploadStoneMacro" accept="image/*" class="file-input-hidden" />
+              <label for="uploadStoneMacro" class="btn-secondary-upload">Chọn Tệp</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="stoneMoTa">Mô Tả Đặc Tính Tác Phẩm:</label>
+          <textarea id="stoneMoTa" class="form-textarea" rows="3" placeholder="Mô tả màu sắc, đường vân nghệ thuật, nguồn gốc..."></textarea>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" id="btnSaveStoneModal" class="btn-primary-action">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            <span>Lưu Dữ Liệu Phiến Đá</span>
+          </button>
+          <button type="button" class="btn-secondary-cancel" data-modal="modalStone">Hủy Bỏ</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 2: THÊM / SỬA ẢNH ALBUM -->
+  <div id="modalAlbum" class="admin-modal-backdrop">
+    <div class="admin-modal-box" style="max-width: 650px;">
+      <div class="modal-header">
+        <div>
+          <span class="modal-eyebrow">QUẢN TRỊ THƯ VIỆN ALBUM</span>
+          <h3 id="modalAlbumTitle" class="modal-title">Thêm Ảnh Mới Vào Album</h3>
+        </div>
+        <button class="modal-close" data-modal="modalAlbum">&times;</button>
+      </div>
+
+      <form id="formAlbumModal" class="modal-body">
+        <input type="hidden" id="albumId" />
+
+        <div class="form-group">
+          <label class="form-label" for="albumTitle">Tiêu Đề Bức Ảnh (*):</label>
+          <input type="text" id="albumTitle" class="form-input" placeholder="Ví dụ: Đại Sảnh Dinh Thự Cẩm Thạch Calacatta" required />
+        </div>
+
+        <div class="form-group">
+          <div class="label-with-hint">
+            <label class="form-label" for="albumImageUrl">Đường Dẫn Hình Ảnh (*):</label>
+            <span class="dim-hint">Kích thước: 1200 x 800 px hoặc 1600 x 1060 px (3:2)</span>
+          </div>
+          <div class="input-with-upload">
+            <input type="text" id="albumImageUrl" class="form-input" placeholder="URL ảnh..." required />
+            <input type="file" id="uploadAlbumImage" accept="image/*" class="file-input-hidden" />
+            <label for="uploadAlbumImage" class="btn-secondary-upload">Chọn Tệp</label>
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="albumCategory">Phân Loại Không Gian (*):</label>
+            <select id="albumCategory" class="form-input" required>
+              <option value="Đại Sảnh">Đại Sảnh</option>
+              <option value="Phòng Khách">Phòng Khách</option>
+              <option value="Khu Bếp">Khu Bếp</option>
+              <option value="Cầu Thang">Cầu Thang</option>
+              <option value="Master Spa">Master Spa</option>
+              <option value="Mặt Tiền">Mặt Tiền</option>
+              <option value="Khác">Khác</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="albumSortOrder">Thứ Tự Sắp Xếp Hiển Thị:</label>
+            <input type="number" id="albumSortOrder" class="form-input" value="1" min="1" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="albumProjectName">Tên Công Trình / Dinh Thự:</label>
+            <input type="text" id="albumProjectName" class="form-input" placeholder="Ví dụ: Dinh Thự Hoàng Gia The Rivus" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="albumStoneName">Loại Đá Tự Nhiên Sử Dụng:</label>
+            <input type="text" id="albumStoneName" class="form-input" placeholder="Ví dụ: Calacatta Michelangelo Marble" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="albumDescription">Mô Tả Không Gian:</label>
+          <textarea id="albumDescription" class="form-textarea" rows="3" placeholder="Mô tả phong cách kiến trúc, góc nhìn..."></textarea>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" id="btnSaveAlbumModal" class="btn-primary-action">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            <span>Lưu Bức Ảnh Vào Album</span>
+          </button>
+          <button type="button" class="btn-secondary-cancel" data-modal="modalAlbum">Hủy Bỏ</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 3: THÊM / SỬA SHOWROOM (VÔ HẠN SHOWROOM) -->
+  <div id="modalDepot" class="admin-modal-backdrop">
+    <div class="admin-modal-box" style="max-width: 700px;">
+      <div class="modal-header">
+        <div>
+          <span class="modal-eyebrow">HỆ THỐNG CƠ SỞ TOÀN QUỐC</span>
+          <h3 id="modalDepotTitle" class="modal-title">Thêm Cơ Sở Showroom Mới</h3>
+        </div>
+        <button class="modal-close" data-modal="modalDepot">&times;</button>
+      </div>
+
+      <form id="formDepotModal" class="modal-body">
+        <input type="hidden" id="depotEditMode" value="create" />
+        <input type="hidden" id="depotIdHidden" />
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="depotId">Mã Cơ Sở / Showroom (*):</label>
+            <input type="text" id="depotId" class="form-input mono" placeholder="Ví dụ: SHOWROOM_HN_01" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="depotTenCoSo">Tên Cơ Sở Showroom (*):</label>
+            <input type="text" id="depotTenCoSo" class="form-input" placeholder="Ví dụ: Showroom 4 — Miền Tây" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="depotLoai">Phân Loại Cơ Sở:</label>
+            <input type="text" id="depotLoai" class="form-input" placeholder="Showroom Trưng Bày / Tổng Kho..." value="Showroom Trưng Bày" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="depotHotline">Hotline Liên Hệ (*):</label>
+            <input type="text" id="depotHotline" class="form-input" placeholder="0988.xxx.xxx" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="depotEmail">Email Cơ Sở:</label>
+            <input type="email" id="depotEmail" class="form-input" value="contact@queenstone.vn" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="depotGioMoCua">Giờ Mở Cửa:</label>
+            <input type="text" id="depotGioMoCua" class="form-input" value="08:00 - 18:30 (Cả Thứ 7, CN)" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="depotSucChua">Sức Chứa Lưu Trữ (m²):</label>
+            <input type="number" id="depotSucChua" class="form-input" value="15000" min="500" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="depotThietBi">Trang Thiết Bị Chuyên Dụng:</label>
+            <input type="text" id="depotThietBi" class="form-input" placeholder="Cẩu trục 20 tấn, máy quét 3D..." />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="depotDiaChi">Địa Chỉ Cơ Sở (*):</label>
+          <input type="text" id="depotDiaChi" class="form-input" placeholder="Địa chỉ chi tiết..." required />
+        </div>
+
+        <div class="form-group">
+          <div class="label-with-hint">
+            <label class="form-label" for="depotHinhAnh">Ảnh Đại Diện Showroom:</label>
+            <span class="dim-hint">Kích thước chuẩn: 800 x 600 px (4:3)</span>
+          </div>
+          <div class="input-with-upload">
+            <input type="text" id="depotHinhAnh" class="form-input" placeholder="/assets/branches/... hoặc URL" />
+            <input type="file" id="uploadDepotImage" accept="image/*" class="file-input-hidden" />
+            <label for="uploadDepotImage" class="btn-secondary-upload">Chọn Tệp</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="depotGoogleMapUrl">Liên Kết Google Maps (Xem Chỉ Đường):</label>
+          <input type="text" id="depotGoogleMapUrl" class="form-input" placeholder="https://www.google.com/maps/search/?api=1&query=..." />
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" id="btnSaveDepotModal" class="btn-primary-action">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            <span id="txtBtnSaveDepot">Lưu Cơ Sở Showroom</span>
+          </button>
+          <button type="button" class="btn-secondary-cancel" data-modal="modalDepot">Hủy Bỏ</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST THÔNG BÁO HOÀNG GIA -->
+  <div id="adminToast" class="admin-toast"></div>
+
+  <!-- SCRIPT ĐIỀU KHIỂN QUẢN TRỊ -->
+  <script src="/js/admin.js"></script>
+</body>
+</html>

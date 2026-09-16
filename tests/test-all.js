@@ -37,6 +37,7 @@ function runSuite(label, scriptPath) {
 // Chạy tuần tự các test suite
 runSuite('QA Tầng A — Local Test', path.join(__dirname, 'test-local.js'));
 runSuite('QA Tầng B Lớp 4 — Migration Test', path.join(__dirname, 'test-migration.js'));
+runSuite('QA Tầng C — Live E2E Server Test', path.join(__dirname, 'test-e2e-live.js'));
 
 // Kết luận
 console.log('================================================================================');

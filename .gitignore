@@ -20,6 +20,7 @@ yarn-error.log*
 *.db-wal
 *.db-shm
 test_*.db
+!data/queen_stone.db
 
 # Operating System Files
 Thumbs.db

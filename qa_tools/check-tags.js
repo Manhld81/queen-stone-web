@@ -7,6 +7,7 @@ const fs = require('fs');
 const path = require('path');
 
 const candidatePaths = [
+  'public/index.html',
   'src/renderer/index.html',
   'src/index.html',
   'index.html'
@@ -19,21 +20,23 @@ for (const p of candidatePaths) {
   }
 }
 
-// Nếu có thư mục src, tìm thêm tất cả các file .html
-if (fs.existsSync('src')) {
-  function findHtml(dir) {
-    const entries = fs.readdirSync(dir, { withFileTypes: true });
-    for (const e of entries) {
-      const full = path.join(dir, e.name);
-      if (e.isDirectory() && e.name !== 'node_modules') {
-        findHtml(full);
-      } else if (e.isFile() && e.name.endsWith('.html') && !htmlFiles.includes(full)) {
-        htmlFiles.push(full);
+// Nếu có thư mục public hoặc src, tìm thêm tất cả các file .html
+['public', 'src'].forEach(targetDir => {
+  if (fs.existsSync(targetDir)) {
+    function findHtml(dir) {
+      const entries = fs.readdirSync(dir, { withFileTypes: true });
+      for (const e of entries) {
+        const full = path.join(dir, e.name);
+        if (e.isDirectory() && e.name !== 'node_modules') {
+          findHtml(full);
+        } else if (e.isFile() && e.name.endsWith('.html') && !htmlFiles.includes(full)) {
+          htmlFiles.push(full);
+        }
       }
     }
+    findHtml(targetDir);
   }
-  findHtml('src');
-}
+});
 
 console.log('================================================================================');
 console.log('🔍 LỚP QA 4: KIỂM TRA CÂN BẰNG THẺ HTML 1:1 (DOM TAGS CHECKER)');
