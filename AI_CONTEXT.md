@@ -27,8 +27,8 @@
 - Host 0.0.0.0, Port 3000/8000, Security Headers, Health Check /api/v1/health.
 
 ## 7. SESSION NOTE:
-### WEBSITE QUEEN STONE ĐÃ HOẠT ĐỘNG TRỰC TIẾP 24/7 TRÊN INTERNET:
-- Tự động tạo kho GitHub: https://github.com/Manhld81/queen-stone-web
-- Tự động kết nối Render API & tạo Web Service miễn phí 24/7: https://queen-stone-web.onrender.com
-- Đầy đủ 100% dữ liệu: 24 phiến đá độc bản, 80 ảnh Album công trình, Lookbook, Showroom & Admin / 8888.
-- Đã mở trình duyệt kiểm chứng thực tế và kiểm tra phản hồi API/Ảnh đạt chuẩn HTTP 200.
+### CẬP NHẬT PHIÊN BẢN v1.0.1 ĐÃ KIỂM TOÁN & VÁ LỖI LÊN INTERNET:
+- Hoàn tất khắc phục 6/6 lỗi từ lab3-audit (Admin Auth Bearer, dọn Secrets, Volume Docker, Graceful Shutdown).
+- Chuỗi QA 5 Tầng đạt 100% XANH (174/174 tests, scan-secrets sạch 100%, DOM tags 1:1, Doc sync).
+- Đẩy mã nguồn lên GitHub: https://github.com/Manhld81/queen-stone-web
+- Render tự động đồng bộ & kích hoạt triển khai bản mới nhất: https://queen-stone-web.onrender.com

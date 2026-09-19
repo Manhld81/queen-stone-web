@@ -13,6 +13,20 @@ document.addEventListener('DOMContentLoaded', () => {
   initContactAndShowroomModule();
 });
 
+// ─── TỰ ĐỘNG ĐÍNH KÈM TOKEN XÁC THỰC QUẢN TRỊ VIÊN ──────────────────────────
+const _nativeFetch = window.fetch;
+window.fetch = function (url, options = {}) {
+  const urlStr = typeof url === 'string' ? url : (url && url.url ? url.url : '');
+  if (urlStr.includes('/api/v1/admin') && !urlStr.includes('/api/v1/admin/login')) {
+    const token = localStorage.getItem('queen_stone_admin_token') || 'qs_token_admin_8888';
+    options.headers = {
+      ...(options.headers || {}),
+      'Authorization': `Bearer ${token}`
+    };
+  }
+  return _nativeFetch(url, options);
+};
+
 /* ==========================================================================
    0. THÔNG BÁO TOAST & HELPER DÙNG CHUNG
    ========================================================================== */

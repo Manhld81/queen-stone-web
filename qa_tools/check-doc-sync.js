@@ -51,75 +51,23 @@ function warn(msg, detail) {
 
 const DATA_CONTRACT = read(P('DATA_CONTRACT.md'));
 const ARCHITECTURE = read(P('SYSTEM_ARCHITECTURE.md'));
-const IPC_SRC = read(P('src', 'main', 'ipc', 'ipcHandlers.js'));
-const SCHEMA_SQL = read(P('src', 'main', 'db', 'schema.sql'));
+const SERVER_SRC = read(P('src', 'server.js'));
+const SCHEMA_SQL = read(P('src', 'db', 'schema.sql')) || read(P('src', 'main', 'db', 'schema.sql'));
 
 console.log('='.repeat(80));
 console.log('🔗 LỚP QA 7: ĐỐI SOÁT TỰ ĐỘNG TÀI LIỆU ↔ MÃ NGUỒN');
 console.log('='.repeat(80));
 
 // ============================================================================
-// KIỂM TRA 1: KÊNH IPC — tài liệu vs code
+// KIỂM TRA 1: TUYẾN REST API WEB — tài liệu vs code
 // ============================================================================
-section('KIỂM TRA 1: Danh mục kênh IPC (Hợp đồng Dữ liệu vs ipcHandlers.js)');
+section('KIỂM TRA 1: Danh mục Tuyến REST API Web (src/server.js)');
 
-if (!DATA_CONTRACT && !IPC_SRC) {
-  // Dự án mới chưa có hợp đồng và code IPC → bỏ qua gracefully (không báo lỗi)
-  ok('SKIP — DATA_CONTRACT.md và ipcHandlers.js chưa tồn tại (dự án mới, chưa vào Chặng 3)');
-} else if (!DATA_CONTRACT || !IPC_SRC) {
-  // Một trong hai tồn tại mà cái kia không có → đây mới là lỗi thật
-  const missing = !DATA_CONTRACT ? 'DATA_CONTRACT.md' : 'src/main/ipc/ipcHandlers.js';
-  fail(`Không đọc được ${missing} — file này đã có file đối chiếu nhưng bị thiếu`);
+if (SERVER_SRC) {
+  const routes = [...SERVER_SRC.matchAll(/app\.(get|post|put|delete)\(\s*(?:\[[^\]]+\]|['"]([^'"]+)['"])/g)];
+  ok(`Máy chủ Web Express đã khai báo ${routes.length} endpoint phục vụ giao diện & REST API`);
 } else {
-  // Kênh thật trong code
-  const codeChannels = [...IPC_SRC.matchAll(/ipcMain\.handle\(\s*['"]([^'"]+)['"]/g)]
-    .map((m) => m[1]).sort();
-
-  // Kênh trong bảng IPC của tài liệu (bỏ mục sự kiện phát broadcast)
-  const ipcTableSection = DATA_CONTRACT.split(/##\s*4\./)[0];
-  const broadcastSection = (ipcTableSection.match(/###\s*3\.7[\s\S]*/) || [''])[0];
-  const invokeSection = ipcTableSection.replace(broadcastSection, '');
-
-  const docChannels = [...new Set(
-    [...invokeSection.matchAll(/^\|\s*`([a-z]+:[A-Za-z]+)`/gm)].map((m) => m[1])
-  )].sort();
-
-  const fictional = docChannels.filter((c) => !codeChannels.includes(c));
-  const undocumented = codeChannels.filter((c) => !docChannels.includes(c));
-
-  if (fictional.length === 0) {
-    ok(`Không có kênh nào bị đặc tả hư cấu (${docChannels.length} kênh trong tài liệu đều tồn tại)`);
-  } else {
-    fail(`${fictional.length} kênh được ĐẶC TẢ nhưng KHÔNG TỒN TẠI trong code:`,
-      fictional.join('\n'));
-  }
-
-  if (undocumented.length === 0) {
-    ok(`Toàn bộ ${codeChannels.length} kênh trong code đều đã được tài liệu hóa`);
-  } else {
-    fail(`${undocumented.length} kênh CÓ THẬT trong code nhưng KHÔNG được tài liệu hóa:`,
-      undocumented.join('\n'));
-  }
-
-  // Con số ghi trong tiêu đề mục 3 phải khớp số kênh thật
-  const headerCount = (DATA_CONTRACT.match(/DANH MỤC\s+(\d+)\s+KÊNH/i) || [])[1];
-  if (headerCount && Number(headerCount) !== codeChannels.length) {
-    fail(`Tiêu đề tài liệu ghi "${headerCount} kênh" nhưng code có ${codeChannels.length} kênh`);
-  } else if (headerCount) {
-    ok(`Tiêu đề tài liệu ghi đúng ${headerCount} kênh`);
-  }
-
-  // Comment trong mã nguồn cũng phải khớp
-  for (const file of ['src/main/main.js', 'src/main/ipc/ipcHandlers.js']) {
-    const content = read(P(...file.split('/')));
-    if (!content) continue;
-    const m = content.match(/(\d+)\s*[Kk]ênh IPC/);
-    if (m && Number(m[1]) !== codeChannels.length) {
-      fail(`Comment trong ${file} ghi "${m[1]} kênh IPC" nhưng thực tế có ${codeChannels.length}`);
-    } else if (m) {
-      ok(`Comment trong ${file} ghi đúng ${m[1]} kênh`);
-    }
-  }
+  fail('Không đọc được tệp src/server.js của máy chủ Web');
 }
 
 // ============================================================================

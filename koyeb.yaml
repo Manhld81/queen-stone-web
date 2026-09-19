@@ -20,15 +20,18 @@ services:
         value: "8000"
       - key: HOST
         value: "0.0.0.0"
-      - key: ADMIN_USERNAME
-        value: Admin
-      - key: ADMIN_PASSWORD
-        value: "8888"
-      - key: ADMIN_PIN
-        value: "1234"
+    # LƯU Ý BẢO MẬT: Mật khẩu ADMIN_PASSWORD và ADMIN_PIN bắt buộc thiết lập qua
+    # Bảng điều khiển Koyeb Secrets (Settings > Secrets), tuyệt đối không ghi vào Git.
+    # Cấu hình Ổ cứng bền vững (Persistent Volume) để bảo toàn dữ liệu SQLite và Ảnh Upload:
+    # volumes:
+    #   - name: qs-data
+    #     path: /app/data
+    #   - name: qs-uploads
+    #     path: /app/public/uploads
     health_checks:
       - http:
           port: 8000
           path: /api/v1/health
         interval: 30
         timeout: 5
+

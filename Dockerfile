@@ -22,6 +22,9 @@ COPY . .
 # Khởi tạo thư mục dữ liệu & cấp quyền
 RUN mkdir -p data public/uploads
 
+# Khai báo Volume lưu trữ bền vững (Persistent Storage) chống mất CSDL khi restart container
+VOLUME ["/app/data", "/app/public/uploads"]
+
 EXPOSE 8000
 
 ENV NODE_ENV=production

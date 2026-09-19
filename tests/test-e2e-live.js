@@ -23,7 +23,7 @@ function get(url) {
   });
 }
 
-function post(url, postData) {
+function post(url, postData, customHeaders = {}) {
   return new Promise((resolve, reject) => {
     const u = new URL(url);
     const bodyStr = JSON.stringify(postData);
@@ -34,7 +34,8 @@ function post(url, postData) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Content-Length': Buffer.byteLength(bodyStr)
+        'Content-Length': Buffer.byteLength(bodyStr),
+        ...customHeaders
       }
     };
     const req = http.request(options, (res) => {
@@ -54,7 +55,7 @@ function post(url, postData) {
   });
 }
 
-function put(url, body) {
+function put(url, body, customHeaders = {}) {
   return new Promise((resolve, reject) => {
     const u = new URL(url);
     const bodyStr = JSON.stringify(body || {});
@@ -65,7 +66,8 @@ function put(url, body) {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'Content-Length': Buffer.byteLength(bodyStr)
+        'Content-Length': Buffer.byteLength(bodyStr),
+        ...customHeaders
       }
     };
     const req = http.request(options, (res) => {
@@ -81,14 +83,17 @@ function put(url, body) {
   });
 }
 
-function del(url) {
+function del(url, customHeaders = {}) {
   return new Promise((resolve, reject) => {
     const u = new URL(url);
     const options = {
       hostname: u.hostname,
       port: u.port,
       path: u.pathname + u.search,
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        ...customHeaders
+      }
     };
     const req = http.request(options, (res) => {
       let data = '';
@@ -311,12 +316,20 @@ async function runE2ETests() {
     const settingsData = JSON.parse(settingsGet.body).data;
     assert(!!settingsData.logo_url, 'Cấu hình hệ thống có logo_url hợp nhất');
 
-    // Kiểm tra API Upload ảnh trực tiếp
+    // Kiểm tra Rào chắn An ninh: Gọi API admin không có Token phải trả về 401 Unauthorized
+    const unauthUpload = await post('http://localhost:3000/api/v1/admin/upload', {
+      filename: 'e2e_test_unauth.png',
+      base64: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=='
+    });
+    assert(unauthUpload.status === 401, 'API /api/v1/admin/upload chặn truy cập khi không có token (HTTP 401)');
+    const authHeader = { 'Authorization': `Bearer ${loginData.token}` };
+
+    // Kiểm tra API Upload ảnh trực tiếp khi CÓ Token hợp lệ
     const uploadRes = await post('http://localhost:3000/api/v1/admin/upload', {
       filename: 'e2e_test_logo.png',
       base64: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=='
-    });
-    assert(uploadRes.status === 201, 'API /api/v1/admin/upload tải ảnh thành công (HTTP 201)');
+    }, authHeader);
+    assert(uploadRes.status === 201, 'API /api/v1/admin/upload tải ảnh thành công khi có token (HTTP 201)');
     const uploadData = JSON.parse(uploadRes.body);
     assert(uploadData.url && uploadData.url.startsWith('/uploads/'), 'Upload trả về URL ảnh hợp lệ trong thư mục /uploads/');
 
@@ -339,20 +352,20 @@ async function runE2ETests() {
       chieu_dai_mm: 2800,
       chieu_rong_mm: 1600,
       so_luong_tam: 8
-    });
+    }, authHeader);
     assert(addStoneRes.status === 201, 'API POST /api/v1/admin/stones thêm phiến đá thành công (HTTP 201)');
     const newStone = JSON.parse(addStoneRes.body).data;
 
     // Sửa số lượng tồn kho
     const editStoneRes = await put(`http://localhost:3000/api/v1/admin/stones/${newStone.id}`, {
       so_luong_tam: 12
-    });
+    }, authHeader);
     assert(editStoneRes.status === 200, 'API PUT /api/v1/admin/stones/:id sửa số lượng tồn thành công (HTTP 200)');
     const updatedStone = JSON.parse(editStoneRes.body).data;
     assert(updatedStone.so_luong_tam === 12, 'Lượng tồn phiến đá được cập nhật lên 12 tấm');
 
     // Xóa phiến đá test
-    const deleteStoneRes = await del(`http://localhost:3000/api/v1/admin/stones/${newStone.id}`);
+    const deleteStoneRes = await del(`http://localhost:3000/api/v1/admin/stones/${newStone.id}`, authHeader);
     assert(deleteStoneRes.status === 200, 'API DELETE /api/v1/admin/stones/:id xóa phiến đá thành công (HTTP 200)');
 
     // Kiểm tra API Showroom vô hạn
@@ -362,9 +375,9 @@ async function runE2ETests() {
       loai: 'Showroom Trưng Bày',
       dia_chi: '123 Đường Test, Hà Nội',
       hotline: '0988.111.222'
-    });
+    }, authHeader);
     assert(addDepotRes.status === 201, 'API POST /api/v1/admin/depots thêm Showroom mới thành công (HTTP 201)');
-    const deleteDepotRes = await del('http://localhost:3000/api/v1/admin/depots/SHOWROOM_E2E_01');
+    const deleteDepotRes = await del('http://localhost:3000/api/v1/admin/depots/SHOWROOM_E2E_01', authHeader);
     assert(deleteDepotRes.status === 200, 'API DELETE /api/v1/admin/depots/:id xóa Showroom thành công (HTTP 200)');
 
     // Kiểm tra Trang chủ có Logo hợp nhất dạng ảnh & Modal Đăng nhập Quản Trị

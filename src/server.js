@@ -461,6 +461,31 @@ app.get('/api/v1/health', (req, res) => {
 
 // ─── ADMIN MANAGEMENT REST API (CỔNG QUẢN TRỊ VIÊN) ──────────────────────────
 
+// Middleware Xác Thực Quản Trị Viên (Admin Authentication Guard)
+const ADMIN_TOKEN = process.env.ADMIN_TOKEN || 'qs_token_admin_8888';
+
+function requireAdminAuth(req, res, next) {
+  // Cho phép gọi API đăng nhập không cần token
+  if (req.path === '/login') {
+    return next();
+  }
+
+  const authHeader = req.headers['authorization'];
+  const token = authHeader ? authHeader.replace(/^Bearer\s+/i, '').trim() : '';
+
+  if (token && token === ADMIN_TOKEN) {
+    return next();
+  }
+
+  return res.status(401).json({
+    success: false,
+    code: 'UNAUTHORIZED',
+    message: 'Yêu cầu quyền Quản Trị Viên (Token không hợp lệ hoặc đã hết hạn).'
+  });
+}
+
+app.use('/api/v1/admin', requireAdminAuth);
+
 /**
  * 8. POST /api/v1/admin/login: Xác thực Đăng nhập Quản Trị (User: Admin / Pass: 8888)
  */
@@ -470,7 +495,7 @@ app.post('/api/v1/admin/login', (req, res) => {
     if (username && username.trim().toLowerCase() === ADMIN_USERNAME.toLowerCase() && password === ADMIN_PASSWORD) {
       return res.json({
         success: true,
-        token: 'qs_token_admin_8888',
+        token: ADMIN_TOKEN,
         user: ADMIN_USERNAME,
         message: 'Đăng nhập Quản Trị Viên thành công!'
       });
@@ -693,4 +718,23 @@ if (require.main === module) {
   });
 }
 
+// ─── GRACEFUL SHUTDOWN (DOCKER / CLOUD CONTAINER RESILIENCE) ──────────────────
+function handleGracefulShutdown(signal) {
+  console.log(`\n[SHUTDOWN] Nhận tín hiệu ${signal}. Đang đóng kết nối máy chủ và CSDL an toàn...`);
+  try {
+    const db = getDb();
+    if (db && typeof db.close === 'function') {
+      db.close();
+      console.log('[SHUTDOWN] Đã đóng kết nối SQLite thành công.');
+    }
+  } catch (e) {
+    console.error('[SHUTDOWN] Lỗi khi đóng CSDL:', e.message);
+  }
+  process.exit(0);
+}
+
+process.on('SIGTERM', () => handleGracefulShutdown('SIGTERM'));
+process.on('SIGINT', () => handleGracefulShutdown('SIGINT'));
+
 module.exports = app;
+
